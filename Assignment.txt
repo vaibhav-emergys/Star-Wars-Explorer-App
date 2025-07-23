@@ -1,0 +1,64 @@
+## Assignment: **Star Wars Explorer App**
+
+**Objective**: Build a React app in **one week** that lets users explore Star Wars characters using the **SWAPI Reborn** API (`https://swapi.info/api/people`).
+
+### Required Features
+
+* **Fetch Paginated Data**
+
+  * Load characters from `https://swapi.info/api/people`
+  * Allow navigation through pages (e.g., “Next” / “Previous”)
+
+* **Search by Name**
+
+  * Add client-side search on character names
+  * Debounce input to avoid rapid re-renders
+
+* **View Details**
+
+  * Clicking a character displays more info (modal or dedicated page)
+
+* **Loading & Error Handling**
+
+  * Show loading indicator during fetches
+  * Display friendly error messages on failure
+
+* **React Best Practices**
+
+  * Use `useState`, `useEffect`, and optionally `useContext` for theme or state management
+
+* **Bonus (optional)**
+
+  * Infinite scrolling instead of pagination
+  * Theme switching (light/dark) via Context API
+  * One simple test (e.g., loading state or search filter behavior)
+
+---
+
+## Evaluation Criteria
+
+| **Category**           | **Key Requirements**                                                                                 |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Functionality**      | Pagination works, search filters properly, details view works, handles loading and errors gracefully |
+| **Code Quality**       | Components are modular, clean, and reasonably organized                                              |
+| **React Practices**    | Correct use of hooks; clean state logic; no anti-patterns                                            |
+| **User Experience**    | Clean UI, responsive layout, clear loading and error states                                          |
+| **Testing (Optional)** | One test implemented (e.g., Jest + React Testing Library for loading/search)                         |
+| **Documentation**      | README includes setup, run instructions, API notes, and feature summary                              |
+| **Bonus Features**     | Infinite scroll or theme switch earns extra merit                                                    |
+
+---
+
+## Week Breakdown (For devs who are on live project(s) please cintact me separately)
+
+* **Mon–Tue**: project setup, API fetch, character list with pagination
+* **Wed**: search functionality & character detail views
+* **Thu**: loading/error UI and refine logic
+* **Fri**: optional bonus, polish, README, and (if possible) small unit test
+
+---
+
+## Submission & Demo
+
+* Submit GitHub repo link with live preview (e.g., Vercel, Netlify) by **Friday EOD**
+* We'll hold a quick demo session: show functionality, explain code patterns, and highlight any bonus features implemented
