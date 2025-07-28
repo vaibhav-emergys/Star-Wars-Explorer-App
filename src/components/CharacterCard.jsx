@@ -1,7 +1,12 @@
 import React from "react";
 import { useDataCache } from "../context/DataCacheContext";
 
-const CharacterCard = ({ character, isExpanded, onToggle, onResourceClick }) => {
+const CharacterCard = ({
+  character,
+  isExpanded,
+  onToggle,
+  onResourceClick,
+}) => {
   const { getResourceById } = useDataCache();
 
   // Add null check
@@ -14,7 +19,7 @@ const CharacterCard = ({ character, isExpanded, onToggle, onResourceClick }) => 
     "name",
     "title",
     "gender",
-    "birth_year", 
+    "birth_year",
     "height",
     "mass",
     "skin_color",
@@ -31,8 +36,9 @@ const CharacterCard = ({ character, isExpanded, onToggle, onResourceClick }) => 
 
   const renderLink = (url) => {
     const parts = url.split("/").filter(Boolean);
-    const type = parts[parts.length - 2];
-    const id = parts[parts.length - 1];
+    const type = parts[parts.length - 2]; // e.g. "films"
+    const id = parts[parts.length - 1]; // e.g. "1"
+
     const cachedData = getResourceById(type, id);
 
     const displayName =
@@ -85,26 +91,26 @@ const CharacterCard = ({ character, isExpanded, onToggle, onResourceClick }) => 
 
   // Get entries to display based on expanded state
   let visibleEntries;
-  
+
   if (isExpanded) {
     // When expanded, show everything except url, created, edited
-    visibleEntries = Object.entries(character).filter(([key]) => 
-      !["url", "created", "edited"].includes(key)
+    visibleEntries = Object.entries(character).filter(
+      ([key]) => !["url", "created", "edited"].includes(key)
     );
   } else {
     // When collapsed, ONLY show the basic fields
-    visibleEntries = Object.entries(character).filter(([key]) => 
+    visibleEntries = Object.entries(character).filter(([key]) =>
       collapsedFields.includes(key)
     );
   }
 
   return (
     <div
-    className={`bg-white border border-gray-200 rounded-lg p-4 shadow-sm w-full max-w-sm ${
-      isExpanded
-        ? ""
-        : "cursor-pointer hover:shadow-md transition duration-200 ease-in-out"
-    }`}
+      className={`bg-white border border-gray-200 rounded-lg p-4 shadow-sm w-full max-w-sm ${
+        isExpanded
+          ? ""
+          : "cursor-pointer hover:shadow-md transition duration-200 ease-in-out"
+      }`}
       onClick={!isExpanded ? onToggle : undefined}
     >
       <h2 className="text-xl font-bold mb-4">

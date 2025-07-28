@@ -35,9 +35,13 @@ const ResourceCard = ({ item, onClick, onResourceClick }) => {
 
   const renderLink = (url) => {
     const parts = url.split("/").filter(Boolean);
-    const type = parts[parts.length - 2];
-    const id = parts[parts.length - 1];
-    const data = getResourceById(type, id);
+    const type = parts[parts.length - 2]; // e.g. "films"
+    const id = parts[parts.length - 1]; // e.g. "1"
+
+    const cachedData = getResourceById(type, id);
+
+    const displayName =
+      cachedData?.title || cachedData?.name || `${type}/${id}`;
 
     return (
       <button
@@ -45,12 +49,10 @@ const ResourceCard = ({ item, onClick, onResourceClick }) => {
         className="text-blue-600 underline text-sm hover:text-blue-800"
         onClick={(e) => {
           e.stopPropagation();
-          if (data && onResourceClick) {
-            onResourceClick(data);
-          }
+          onResourceClick(cachedData || { url });
         }}
       >
-        {type}/{id}
+        {displayName}
       </button>
     );
   };
