@@ -1,15 +1,13 @@
-const Search = () => {
+const Search = ({ searchTerm, onSearchChange }) => {
   return (
     <div>
       <input
-        className="border-2 border-solid m-4 p-3"
         type="text"
-        name="example"
-        placeholder="Search"
+        placeholder="Search characters..."
+        value={searchTerm}
+        onChange={(e) => onSearchChange(e.target.value)}
+        className="w-full border border-gray-300 rounded-md px-4 py-2 shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
       />
-      <button className="m-4 p-2 border-2 rounded-md bg-blue-500">
-        Search
-      </button>
     </div>
   );
 };
