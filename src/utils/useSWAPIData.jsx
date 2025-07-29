@@ -1,9 +1,11 @@
 import { useEffect, useState } from "react";
+import { useDataCache } from "../context/DataCacheContext";
 
 const useSwAPIData = (resource = "people", setResourceData) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const { cache } = useDataCache();
 
   const fetchAllPages = async (url) => {
     let results = [];
@@ -23,8 +25,21 @@ const useSwAPIData = (resource = "people", setResourceData) => {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const allData = await fetchAllPages(`https://swapi.info/api/${resource}`);
+
+        if (cache[resource] && Object.keys(cache[resource]).length > 0) {
+          console.log(`Using cached data for ${resource}`);
+          const cachedData = Object.values(cache[resource]);
+          setData(cachedData);
+          setLoading(false);
+          return;
+        }
+
+        console.log(`Cache miss for ${resource}, fetching from API...`);
+        const allData = await fetchAllPages(
+          `https://swapi.info/api/${resource}`
+        );
         setData(allData);
+
         if (setResourceData) {
           setResourceData(resource, allData);
         }
@@ -34,8 +49,9 @@ const useSwAPIData = (resource = "people", setResourceData) => {
         setLoading(false);
       }
     };
+
     fetchData();
-  }, [resource]);
+  }, [resource, cache]);
 
   return { data, loading, error };
 };

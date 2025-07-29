@@ -1,52 +1,81 @@
 import React from "react";
 import { useDataCache } from "../context/DataCacheContext";
 
-const ResourceCard = ({ item, onClick, onResourceClick }) => {
+const ResourceCard = ({
+  item,
+  onClick,
+  onResourceClick,
+  isExpanded = false,
+}) => {
   const { getResourceById } = useDataCache();
 
-  const renderValue = (key, value) => {
-    if (Array.isArray(value)) {
-      return (
-        <div key={key} className="mb-2">
-          <strong className="block">{formatKey(key)}:</strong>
-          <div className="flex flex-wrap gap-2 mt-1">
-            {value.length === 0 ? (
-              <span className="text-gray-500">None</span>
-            ) : (
-              value.map((url) => renderLink(url))
-            )}
-          </div>
-        </div>
-      );
-    } else if (typeof value === "string" && value.startsWith("http")) {
-      return (
-        <div key={key} className="mb-2">
-          <strong>{formatKey(key)}:</strong> {renderLink(value)}
-        </div>
-      );
-    } else {
-      return (
-        <div key={key} className="mb-2">
-          <strong>{formatKey(key)}:</strong> {String(value)}
-        </div>
-      );
+  if (!item) return null;
+
+  const getCollapsedFields = (item) => {
+    if (item.birth_year || item.height || item.gender) {
+      return [
+        "name",
+        "gender",
+        "birth_year",
+        "height",
+        "mass",
+        "skin_color",
+        "hair_color",
+        "eye_color",
+      ];
     }
+    if (item.title && item.episode_id !== undefined) {
+      return ["title", "episode_id", "director", "producer", "release_date"];
+    }
+    if (item.classification || item.designation) {
+      return [
+        "name",
+        "classification",
+        "designation",
+        "average_height",
+        "skin_colors",
+        "hair_colors",
+        "eye_colors",
+      ];
+    }
+    if (item.model || item.manufacturer) {
+      return [
+        "name",
+        "model",
+        "manufacturer",
+        "cost_in_credits",
+        "length",
+        "crew",
+        "passengers",
+      ];
+    }
+    return ["name", "title"];
   };
+
+  const collapsedFields = getCollapsedFields(item);
+
+  const formatKey = (key) =>
+    key
+      .split("_")
+      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+      .join(" ");
 
   const renderLink = (url) => {
     const parts = url.split("/").filter(Boolean);
-    const type = parts[parts.length - 2]; // e.g. "films"
-    const id = parts[parts.length - 1]; // e.g. "1"
+    const type = parts[parts.length - 2];
+    const id = parts[parts.length - 1];
 
     const cachedData = getResourceById(type, id);
 
     const displayName =
-      cachedData?.title || cachedData?.name || `${type}/${id}`;
+      cachedData?.title ||
+      cachedData?.name ||
+      `${type.charAt(0).toUpperCase() + type.slice(1, -1)} ${id}`;
 
     return (
       <button
         key={url}
-        className="text-blue-600 underline text-sm hover:text-blue-800"
+        className="bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full shadow-sm hover:bg-indigo-200 transition"
         onClick={(e) => {
           e.stopPropagation();
           onResourceClick(cachedData || { url });
@@ -57,24 +86,64 @@ const ResourceCard = ({ item, onClick, onResourceClick }) => {
     );
   };
 
-  const formatKey = (key) =>
-    key
-      .split("_")
-      .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
-      .join(" ");
+  const renderValue = (key, value) => {
+    if (Array.isArray(value)) {
+      return (
+        <div key={key} className="mb-4">
+          <div className="text-xs text-gray-500 font-medium mb-1">
+            {formatKey(key)}
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {value.length === 0 ? (
+              <span className="text-gray-400 text-sm">Not Available</span>
+            ) : (
+              value.map((url) => renderLink(url))
+            )}
+          </div>
+        </div>
+      );
+    } else if (typeof value === "string" && value.startsWith("http")) {
+      return (
+        <div key={key} className="mb-4">
+          <div className="text-xs text-gray-500 font-medium mb-1">
+            {formatKey(key)}
+          </div>
+          <div>{renderLink(value)}</div>
+        </div>
+      );
+    } else {
+      return (
+        <div key={key} className="mb-4">
+          <div className="text-xs text-gray-500 font-medium mb-1">
+            {formatKey(key)}
+          </div>
+          <div className="text-sm text-gray-800">{String(value)}</div>
+        </div>
+      );
+    }
+  };
+
+  const visibleEntries = Object.entries(item).filter(([key]) =>
+    isExpanded
+      ? !["url", "created", "edited"].includes(key)
+      : collapsedFields.includes(key)
+  );
 
   return (
     <div
-      className="p-4 bg-white border rounded shadow-md w-full max-w-sm cursor-pointer hover:shadow-lg transition"
-      onClick={() => onClick?.(item)}
+      className={`p-0 bg-transparent shadow-none w-full ${
+        isExpanded
+          ? ""
+          : "bg-white rounded-xl shadow-md p-6 max-w-[300px] cursor-pointer hover:shadow-lg hover:scale-[1.01] transition"
+      }`}
+      onClick={!isExpanded ? () => onClick?.(item) : undefined}
     >
-      <h2 className="text-lg font-semibold mb-4">
-        {item.name || item.title || "Unnamed"}
+      <h2 className="text-lg font-semibold text-indigo-700 mb-4">
+        {item.name || item.title || "Unnamed Resource"}
       </h2>
-      <div className="text-sm text-gray-800">
-        {Object.entries(item)
-          .filter(([k]) => !["url", "created", "edited"].includes(k))
-          .map(([key, val]) => renderValue(key, val))}
+
+      <div className="text-sm text-gray-800 space-y-2">
+        {visibleEntries.map(([key, val]) => renderValue(key, val))}
       </div>
     </div>
   );

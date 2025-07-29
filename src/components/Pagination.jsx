@@ -1,22 +1,28 @@
+import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/solid";
+
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   return (
-    <div className="flex justify-center m-10 p-4 space-x-4">
+    <div className="flex justify-center mt-10 mb-6 space-x-6">
       <button
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="flex items-center justify-center w-10 h-10 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow disabled:opacity-40 transition"
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
+        title="Previous Page"
       >
-        Previous
+        <ChevronLeftIcon className="w-5 h-5" />
       </button>
-      <span className="text-lg font-semibold">
-        page {currentPage} of {totalPages}
+
+      <span className="text-sm font-medium text-gray-700 flex items-center">
+        Page {currentPage} of {totalPages}
       </span>
+
       <button
-        className="bg-blue-500 text-white px-4 py-2 rounded"
+        className="flex items-center justify-center w-10 h-10 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full shadow disabled:opacity-40 transition"
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
+        title="Next Page"
       >
-        Next
+        <ChevronRightIcon className="w-5 h-5" />
       </button>
     </div>
   );
