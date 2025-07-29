@@ -38,7 +38,6 @@ A modern and interactive React app that allows you to explore characters, planet
 - 💨 **Tailwind CSS** – Utility-first styling
 - 🌐 **SWAPI Reborn** – Star Wars REST API
 - 🧠 **Context API** – App-wide state and data caching
-- 🗂️ **React Router DOM** – Navigation and routing (if used)
 - 🔁 **Custom Hooks** – For data fetching and debounce
 
 ---
@@ -48,6 +47,17 @@ A modern and interactive React app that allows you to explore characters, planet
 ### 🔧 Clone the repository
 
 ```bash
+# Clone the repository
 git clone https://github.com/YOUR_USERNAME/star-wars-explorer.git
 cd star-wars-explorer
+
+# Or if using your actual repo
+git clone https://github.com/aniket-chougule22/star-war-explorer
+cd star-war-explorer
+
+# Install dependencies
+npm install
+
+# Run the app
+npm run dev
 ```
