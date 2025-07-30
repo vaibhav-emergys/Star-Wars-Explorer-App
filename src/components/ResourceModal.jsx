@@ -99,7 +99,7 @@ const ResourceModal = ({
               {hasNavigation && (
                 <button
                   onClick={handleCloseAll}
-                  className="flex items-center gap-1 px-3 py-1 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors"
+                  className="flex items-center gap-1 px-3 py-1 text-sm text-red-600 hover:text-red-800 hover:bg-red-50 rounded transition-colors cursor-pointer"
                   title="Close all modals and return to homepage"
                 >
                   <XMarkIcon className="w-4 h-4" />
@@ -116,9 +116,9 @@ const ResourceModal = ({
               }
             >
               {hasNavigation ? (
-                <ArrowLeftIcon className="w-6 h-6 text-gray-600 hover:text-black" />
+                <ArrowLeftIcon className="w-6 h-6 text-gray-600 hover:text-black cursor-pointer" />
               ) : (
-                <XMarkIcon className="w-6 h-6 text-gray-600 hover:text-black" />
+                <XMarkIcon className="w-6 h-6 text-gray-600 hover:text-black cursor-pointer" />
               )}
             </button>
           </div>

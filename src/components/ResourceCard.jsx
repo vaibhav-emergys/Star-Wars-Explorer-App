@@ -75,7 +75,7 @@ const ResourceCard = ({
     return (
       <button
         key={url}
-        className="bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full shadow-sm hover:bg-indigo-200 transition"
+        className="bg-indigo-100 text-indigo-700 text-sm font-medium px-3 py-1 rounded-full shadow-sm hover:bg-indigo-200 transition cursor-pointer"
         onClick={(e) => {
           e.stopPropagation();
           onResourceClick(cachedData || { url });

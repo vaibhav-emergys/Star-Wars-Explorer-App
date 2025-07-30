@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import useSwAPIData from "../utils/useSWAPIData";
 import ResourceCard from "./ResourceCard";
 import Pagination from "./Pagination";
@@ -16,10 +16,20 @@ const ResourceGrid = ({ resourceType, searchTerm }) => {
     setCurrentPage(1);
   }, [resourceType]);
 
-  const filtered = data.filter((item) => {
-    const value = item.name || item.title || "";
-    return value.toLowerCase().includes(searchTerm.toLowerCase());
-  });
+  // used useMemo t oavoid unnecessary recalculations
+
+  const filtered = useMemo(() => {
+    return data.filter((item) => {
+      const value = item.name || item.title || "";
+      return value.toLowerCase().includes(searchTerm.toLowerCase());
+    });
+  }, [data, searchTerm]);
+
+  // previously used to filter data based on search term
+  // const filtered = data.filter((item) => {
+  //   const value = item.name || item.title || "";
+  //   return value.toLowerCase().includes(searchTerm.toLowerCase());
+  // });
 
   const indexOfLastItem = currentPage * itemsPerPage;
   const currentItems = filtered.slice(

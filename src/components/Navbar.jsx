@@ -11,11 +11,11 @@ const Navbar = ({ current, onChange }) => {
   ];
 
   return (
-    <nav className="flex flex-wrap gap-3 justify-center bg-gradient-to-r from-indigo-800 to-indigo-600 p-4 text-white shadow-md rounded-b-lg">
+    <nav className="flex flex-wrap gap-3 justify-center bg-gradient-to-r from-indigo-800 to-indigo-600 p-4 text-white shadow-md rounded-b-lg ">
       {types.map((type) => (
         <button
           key={type}
-          className={`px-4 py-2 rounded transition font-medium text-sm ${
+          className={`px-4 py-2  cursor-pointer rounded transition font-medium text-sm ${
             current === type
               ? "bg-white text-indigo-600"
               : "hover:bg-indigo-500"
