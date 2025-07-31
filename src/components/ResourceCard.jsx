@@ -1,5 +1,12 @@
 import React from "react";
 import { useDataCache } from "../context/DataCacheContext";
+import {
+  PERSON_FIELDS,
+  FILM_FIELDS,
+  SPECIES_FIELDS,
+  VEHICLE_STARSHIP_FIELDS,
+  PLANET_FIELDS,
+} from "../utils/constants";
 
 const ResourceCard = ({
   item,
@@ -13,41 +20,19 @@ const ResourceCard = ({
 
   const getCollapsedFields = (item) => {
     if (item.birth_year || item.height || item.gender) {
-      return [
-        "name",
-        "gender",
-        "birth_year",
-        "height",
-        "mass",
-        "skin_color",
-        "hair_color",
-        "eye_color",
-      ];
+      return PERSON_FIELDS;
     }
     if (item.title && item.episode_id !== undefined) {
-      return ["title", "episode_id", "director", "producer", "release_date"];
+      return FILM_FIELDS;
     }
     if (item.classification || item.designation) {
-      return [
-        "name",
-        "classification",
-        "designation",
-        "average_height",
-        "skin_colors",
-        "hair_colors",
-        "eye_colors",
-      ];
+      return SPECIES_FIELDS;
     }
     if (item.model || item.manufacturer) {
-      return [
-        "name",
-        "model",
-        "manufacturer",
-        "cost_in_credits",
-        "length",
-        "crew",
-        "passengers",
-      ];
+      return VEHICLE_STARSHIP_FIELDS;
+    }
+    if (item.rotation_period || item.orbital_period) {
+      return PLANET_FIELDS;
     }
     return ["name", "title"];
   };

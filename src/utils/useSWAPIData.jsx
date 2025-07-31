@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDataCache } from "../context/DataCacheContext";
+import { SWAPI_URL } from "../utils/constants";
 
 const useSwAPIData = (resource = "people", setResourceData) => {
   const [data, setData] = useState([]);
@@ -35,9 +36,7 @@ const useSwAPIData = (resource = "people", setResourceData) => {
         }
 
         console.log(`Cache miss for ${resource}, fetching from API...`);
-        const allData = await fetchAllPages(
-          `https://swapi.info/api/${resource}`
-        );
+        const allData = await fetchAllPages(`${SWAPI_URL}${resource}`);
         setData(allData);
 
         if (setResourceData) {
@@ -51,7 +50,7 @@ const useSwAPIData = (resource = "people", setResourceData) => {
     };
 
     fetchData();
-  }, [resource, cache]);
+  }, [resource, cache, setResourceData]);
 
   return { data, loading, error };
 };
